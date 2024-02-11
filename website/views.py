@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash,jsonify
 from flask_login import login_required,  current_user
-from .models import Note
+from .models import Game, User
 from . import db
 import json
 
@@ -10,25 +10,38 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
         if request.method == 'POST':
-            note = request.form.get('note')
-            if len(note) < 1:
-                flash('Note too short', category='error')
+            data = request.form
+            print(data)
+
+            host = request.form.get('host')
+            guest = request.form.get('guest')
+            host_score = request.form.get('host_score')
+            guest_score = request.form.get('guest_score')
+            
+            guestId = User.query.filter_by(email=guest).first()
+
+            if guestId == "" :
+                flash('Guest not known', category='error')
+            elif host == guest:
+                flash('Cannot play with yourself', category='error')
             else:
-                new_note = Note(data=note, user_id = current_user.id)
-                db.session.add(new_note)
+                new_game = Game(host_id = current_user.id, guest_id = guestId.id, host_score = host_score, guest_score= guest_score, accepted=False)
+                db.session.add(new_game)
                 db.session.commit()
-
                 flash('Note added', category='success')
-        return render_template("home.html", user=current_user)
+        print(current_user.game_host)
+        all_players = User.query.all()
+        return render_template("home.html", user=current_user, players=all_players)
 
-@views.route('/delete-note', methods=['POST'])
-def delete_note():
-    note1 = json.loads(request.data)
-    noteId = note1['noteId']
-    note = Note.query.get(noteId)
-    if note:
-        if note.user_id == current_user.id:
-            db.session.delete(note)
+
+@views.route('/delete-game', methods=['POST'])
+def delete_game():
+    gamed = json.loads(request.data)
+    gameId = gamed['gameId']
+    print (f"trying to delete game: {gameId}")
+    game = Game.query.get(gameId)
+    if game:
+        if game.host_id == current_user.id or game.guest_id == current_user.id:
+            db.session.delete(game)
             db.session.commit()
-    
     return jsonify({})

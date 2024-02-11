@@ -1,22 +1,61 @@
 {% extends "base.html" %} 
 {% block title %}Home{% endblock %} 
 {% block content%}
-<h1 align="center">Notes</h1>
+<h1 align="center">Games</h1>
 <ul class="list-group list-group-flash" id="notes">
-{% for note in user.notes %}
-    <li class="list-group-item">{{note.data}}
-        <button type="button" class="close" onclick="deleteNote({{ note.id }})">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </li>
+{% for game in user.game_host %}
+    {% for player in players%}
+        {%if player.id == game.guest_id %}
+            <li class="list-group-item">Game no. {{game.id}} ==> {{user.email}} - {{game.host_score}} : {{game.guest_score}} - {{player.email}}
+                <button type="button" class="close" onclick="deleteGame({{ game.id }})">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </li>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+{% for game in user.game_guest %}
+    {% for player in players%}
+        {%if player.id == game.host_id %}
+            <li class="list-group-item">Game no. {{game.id}} ==> {{player.email}} - {{game.host_score}} : {{game.guest_score}} - {{user.email}}
+                <button type="button" class="close" onclick="deleteGame({{ game.id }})">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </li>
+        {% endif %}
+    {% endfor %}
 {% endfor %}
 </ul>
 <br/>
 <form method="POST">
-    <textarea name="note" id="note" class="form-control"></textarea>
+    <div class="form-group">
+        <div class="mb-3 row">
+            <label for="host" class="col-sm-2 col-form-label">Host Player</label>  
+            <div class="col-sm-4"> 
+                <input class="form-control" type="text" id="host" name="host" value="{{ user.email }}" readonly/> 
+            </div>
+            <div class="col-sm-5"> 
+                <input type="text" class="form-control" id="host_score" name="host_score" placeholder="Host score"/>        
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="guest" class="col-sm-2 col-form-label">Guest Player</label>
+            <div class="col-sm-4"> 
+                <select class="form-select" name="guest">
+                    <option selected>Guest player</option>
+                    {% for player in players %}
+                        <option value="{{player.email}}">{{player.email}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-5"> 
+                <input type="text" class="form-control" id="guest_score" name="guest_score" placeholder="Guest score"/>
+            </div>
+        </div>
+    </div>
     <br/>
     <div align="center">
-        <button type="submit" class="btn btn-primary">Add note</button>
+        <button type="submit" class="btn btn-primary">Add game</button>
     </div>
 </form>
 {% endblock %}
