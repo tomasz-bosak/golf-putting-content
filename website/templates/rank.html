@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+{% block title %}Home{% endblock %} 
+{% block content%}
+
+<h1 align="center">Ranking of players</h1>
+
+<table class="table table-hover">
+<thead>
+    <td>Player's index</td>
+    <td>Name</td>
+    <td>E-mail</td>
+    <td>Games played</td>
+</thead>
+{% for player in players | sort(attribute='index', reverse=True)%}
+    <tr>
+        <td>
+            <b>{{ "%.2f"|format(player.index) }}</b>
+        </td>
+        <td>
+            {{player.first_name}}
+        </td>
+        <td>
+            {{player.email}}
+        </td>
+        <td>
+            <b>{{ "%d"|format(player.game_host|length + player.game_guest |length) }}</b>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+<div>
+    Index is calculated in the similar manner as the <a href="https://en.wikipedia.org/wiki/Chess_rating_system#Linear_approximation">chess ELO rating</a> taking into account that W+L=9 for a game.<br/>
+    Players that has not yet played has the index set to base: 800.0. 
+</div>
+{% endblock %}

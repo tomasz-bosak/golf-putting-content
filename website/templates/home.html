@@ -1,54 +1,80 @@
-{% extends "base.html" %} 
-{% block title %}Home{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
 {% block content%}
-<h1 align="center">Games</h1>
+
+<h1 align="center">Welcome {{user.first_name}}</h1>
+<ul class="list-group">
+    <li class="list-group-item">Your email: <b>{{user.email}}</b></li>
+    {% if user.index is not none %}
+        <li class="list-group-item">Your index: <b>{{ "%.2f"|format(user.index) }}</b><br/>Games played: <b>{{ user.game_host|length + user.game_guest |length }}</b></li>
+    {% else %}
+        <li class="list-group-item">Your index: <b> 800 (default)</b></li>
+    {% endif %}
+</ul>
+
+<h2 align="center">Recent games</h1>
 <ul class="list-group list-group-flash" id="notes">
-{% for game in user.game_host %}
+... as host<br/>
+{% for game in user.game_host[-5:] %}
     {% for player in players%}
         {%if player.id == game.guest_id %}
-            <li class="list-group-item">Game no. {{game.id}} ==> {{user.email}} - {{game.host_score}} : {{game.guest_score}} - {{player.email}}
+            <li class="list-group-item">Game {{game.id}}: {{user.first_name}} - {{game.host_score}} : {{game.guest_score}} - {{player.first_name}}
+                {%if not game.accepted %}
                 <button type="button" class="close" onclick="deleteGame({{ game.id }})">
                 <span aria-hidden="true">&times;</span>
             </button>
+            {% endif %}
         </li>
         {% endif %}
     {% endfor %}
 {% endfor %}
-{% for game in user.game_guest %}
+
+{% set ns = namespace(unacceptedGames=False) %}
+... as guest<br/>
+{% for game in user.game_guest[-5:] %}
     {% for player in players%}
         {%if player.id == game.host_id %}
-            <li class="list-group-item">Game no. {{game.id}} ==> {{player.email}} - {{game.host_score}} : {{game.guest_score}} - {{user.email}}
-                <button type="button" class="close" onclick="deleteGame({{ game.id }})">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <li class="list-group-item">Game {{game.id}}: {{player.first_name}} - {{game.host_score}} : {{game.guest_score}} - {{user.first_name}}
+                {%if not game.accepted %}
+                    {% set ns.unacceptedGames = true %}
+                    <button type="button" class="close" onclick="acceptGame({{ game.id }})">
+                        <span aria-hidden="true">&check;</span>
+                    </button>
+                    {%endif%}
             </li>
         {% endif %}
     {% endfor %}
 {% endfor %}
 </ul>
 <br/>
+
+{% if ns.unacceptedGames == true %}
+<h3 align="left">You have not accepted all the games, cannot add new ones</h1>
+{% else %}
 <form method="POST">
     <div class="form-group">
         <div class="mb-3 row">
-            <label for="host" class="col-sm-2 col-form-label">Host Player</label>  
-            <div class="col-sm-4"> 
-                <input class="form-control" type="text" id="host" name="host" value="{{ user.email }}" readonly/> 
+            <label for="host" class="col-sm-2 col-form-label">Host Player</label>
+            <div class="col-sm-7">
+                <input class="form-control" type="text" id="host" name="host" value="{{ user.email }}" readonly/>
             </div>
-            <div class="col-sm-5"> 
-                <input type="text" class="form-control" id="host_score" name="host_score" placeholder="Host score"/>        
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="host_score" name="host_score" placeholder="Host score"/>
             </div>
         </div>
         <div class="mb-3 row">
             <label for="guest" class="col-sm-2 col-form-label">Guest Player</label>
-            <div class="col-sm-4"> 
+            <div class="col-sm-7">
                 <select class="form-select" name="guest">
-                    <option selected>Guest player</option>
+                    <!-- <option selected>Guest player</option> -->
                     {% for player in players %}
-                        <option value="{{player.email}}">{{player.email}}</option>
+                        {%if player.email != user.email %}
+                            <option value="{{player.email}}">{{player.first_name}} ({{player.email}})</option>
+                        {%endif%}
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-sm-5"> 
+            <div class="col-sm-3">
                 <input type="text" class="form-control" id="guest_score" name="guest_score" placeholder="Guest score"/>
             </div>
         </div>
@@ -58,4 +84,5 @@
         <button type="submit" class="btn btn-primary">Add game</button>
     </div>
 </form>
+{% endif %}
 {% endblock %}

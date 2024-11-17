@@ -35,7 +35,8 @@
           {% else %}
           <a class="nav-item nav-link" id="login" href="/login">Login</a>
           <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
-          {% endif %}  
+          {% endif %}
+          <a class="nav-item nav-link" id="rank" href="/ranking">Ranking</a>
         </div>
       </div>
     </nav>
@@ -47,14 +48,14 @@
       {{ message }}
       <button type="button" class="close" data-dismiss="alert">
         <span aria-hidden="true">&times;</span>
-      </button> 
+      </button>
     </div>
     {%else %}
       <div class="alert alert-danger alert-dissmissable fade show" role="alert">
         {{ message }}
         <button type="button" class="close" data-dismiss="alert">
           <span aria-hidden="true">&times;</span>
-        </button> 
+        </button>
       </div>
       {% endif %}
     {% endfor%}

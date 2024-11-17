@@ -55,7 +55,8 @@ def sing_up():
         else:
             new_user = User(email=email, \
                             first_name=firstName, \
-                            password = generate_password_hash(password, method='pbkdf2:sha256:1'))
+                            password = generate_password_hash(password, method='pbkdf2:sha256:1'),
+                            index=800.0)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
