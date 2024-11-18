@@ -45,6 +45,12 @@ def ranking():
                   player.index = 800.0
 
         return render_template("rank.html", user=current_user, players=all_players)
+@views.route('/regulamin', methods=['GET', 'POST'])
+def regulamin():
+        return render_template("regulamin.html",user=current_user)
+@views.route('/rules', methods=['GET', 'POST'])
+def rules():
+        return render_template("rules.html",user=current_user)
 
 @views.route('/delete-game', methods=['POST'])
 def delete_game():

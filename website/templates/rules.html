@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Regulamin{% endblock %}
+{% block content%}
+
+<h1>Ericsson Putting League 2024</h1>
+<h2>Glossary:</h2>
+<p><strong>Mat:</strong> a special mat (in KRB Lars) used for putting practice.</p>
+<p><strong>Hole (place):</strong> a circular area at one end of the mat.</p>
+<p><strong>Hole (round):</strong> a round played by each player with their ball.</p>
+<p><strong>Application:</strong> <a href="http://129.151.67.163:5000/">a website</a> for
+    recording results and ranking players.</p>
+<p><strong>Ranking:</strong> points gained or lost during matches against other players. Based on the ELO chess ranking
+    system.</p>
+<img src="{{url_for('static', filename='setup.png')}}" alt="rules" width="600" height="600">
+<h2>Rules:</h2>
+<ol>
+    <li>A match consists of 9 holes (3 short, 3 medium, 3 long) played on a putting mat by two players.</li>
+    <li>The sequence of play is long-medium-short-long-medium-short-long-medium-short.</li>
+    <li>The hole positions are marked by lines on the mat (see diagram above).</li>
+    <li>The first hole is started by the player with the higher ranking (or chosen randomly). Each subsequent hole is
+        started by the winner of the previous hole, or in case of a tie, by the player who started the previous hole.
+    </li>
+    <li>Each player plays the hole with their ball. The first player’s ball remains on the mat and can be knocked away.
+    </li>
+    <li>A ball that falls off the mat does not count towards the result. If both balls fall off, it is a tie for that
+        hole – each player receives ½ a point.
+    </li>
+    <li>The player whose ball is closer to the center of the hole after both have played receives 1 point.</li>
+    <li>If the distances are the same, both players receive ½ a point. Distances are judged "by eye."</li>
+    <li>Match results are recorded on a dedicated website. One player enters the result, and the other confirms it.
+        The result must total 9 points (e.g., 5-4 or 1-8).
+    </li>
+    <li>After confirmation, ranking points are recalculated by the system.</li>
+    <li>The goal of the competition is to achieve the highest ranking by the end of the season and qualify for the final
+        playoffs.
+    </li>
+</ol>
+<img src="{{url_for('static', filename='examples.png')}}" alt="rules" width="600" height="600">
+
+<h2>End of Season:</h2>
+<p>The season is planned to run from November 2024 to March 2025.</p>
+<p>Final matches are scheduled for April to determine the putting champion. The format of the finals will be decided at
+    a later date.</p>
+
+<h2>Website:</h2>
+<p>Anyone can access the website, but registering a match requires logging in.</p>
+<p>Email, username, and password can be arbitrary – it is recommended to use a recognizable email address.</p>
+<p>The password is stored in an encrypted format and cannot be changed or recovered – choose wisely :D.</p>
+<h2>Other issues</h2>
+<p> Contact me in case of any questions: <a
+        href="mailto:tomasz.bosak@ericsson.com?subject=[GOLF PUTTING]">tomasz.bosak@ericsson.com</a> (663 426 762)
+</p>
+{% endblock %}

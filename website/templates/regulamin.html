@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Regulamin{% endblock %}
+{% block content%}
+
+<h1>Ericssonowa Liga Puttowania 2024</h1>
+<hr>
+<h2>Słowniczek:</h2>
+<p><strong>Mata:</strong> specjalna mata (w KRB Lars) do treningu puttowania.</p>
+<p><strong>Dołek (miejsce):</strong> okrągły obszar na jednym z końców maty.</p>
+<p><strong>Dołek (etap):</strong> zagranie przez każdego z graczy swojej piłeczki.</p>
+<p><strong>Aplikacja:</strong> <a href="http://129.151.67.163:5000/">strona internetowa</a>
+    do gromadzenia wyników i rankingu graczy.</p>
+<p><strong>Ranking:</strong> punkty zdobywane i tracone w trakcie rozgrywania meczów z innymi zawodnikami. Wzorowany na
+    szachowym rankingu ELO.</p>
+<img src="{{url_for('static', filename='setup.png')}}" alt="rules" width="600" height="600">
+<h2>Zasady:</h2>
+
+<ol>
+    <li>Mecz polega na rozegraniu 9 dołków (3 krótkich, 3 średnich, 3 długich) na macie do puttowania przez dwie osoby.
+    </li>
+    <li>Kolejność gry to długi-średni-krótki-długi-średni-krótki-długi-średni-krótki.</li>
+    <li>Ustawienie dołków wyznaczają linie na macie (zobacz rysunek powyżej).</li>
+    <li>Pierwszy dołek rozpoczyna osoba z wyższym rankingiem (lub wylosowana). Każdy kolejny dołek ta, która wygrała
+        poprzedni lub w przypadku remisu, ta która zaczyniała poprzedni.</li>
+    <li>Każdy gracz rozgrywa dołek swoją piłeczką. Piłeczka pierwszego gracza zostaje na macie i można ją wybić.</li>
+    <li>Piłeczka, która spadnie z maty nie uczestniczy w ustaleniu wyniku. Jeśli spadną obie – jest remis na tym dołku –
+        każdy z graczy otrzymuje ½ punktu.</li>
+    <li>Osoba, której piłeczka, po zagraniu obu graczy, jest bliżej środka dołka otrzymuje 1 punkt.</li>
+    <li>W przypadku takiej samej odległości obie osoby otrzymują po ½ punktu. Mierzymy „na oko”.</li>
+    <li>Wyniki meczu zapisuje się na specjalnie przygotowanej <a href="http://129.151.67.163:5000/">stronie</a>
+        internetowej. Jedna z grających osób wpisuje wynik, a druga osoba go potwierdza. Wynik musi sumować się do 9
+        punktów (np. 5-4 lub 1-8).</li>
+    <li>Po potwierdzeniu wyniku punkty rankingowe są przeliczane przez system.</li>
+    <li>Celem rozgrywek jest uzyskanie jak najwyższego rankingu na koniec sezonu oraz uczestnictwo w końcowych finałach.
+    </li>
+</ol>
+<img src="{{url_for('static', filename='examples.png')}}" alt="rules" width="600" height="600">
+
+<h2>Koniec sezonu:</h2>
+<p>Sezon planowany jest na okres od listopada 2024 do marca 2025.</p>
+<p>W kwietniu planowane są finałowe rozgrywki w celu wyłonienia mistrza puttowania. Format rozgrywek finałowych zostanie
+    ustalony w późniejszym terminie.</p>
+
+<h2>Strona internetowa:</h2>
+<p>Na stronę może wejść każdy – ale żeby zarejestrować grę należy się zalogować.</p>
+<p>E-mail, nazwa użytkownika i hasło mogą być dowolne – sugerowane jest, aby stosować rozpoznawalny e-mail użytkownika.
+</p>
+<p>Hasło przechowywane jest w postaci zakodowanej i nie ma możliwości jego zmiany lub przypomnienia – wybierz dobrze :D.
+</p>
+<h2>Inne</h2>
+<p> W razie potrzeby skontaktuj się z <a
+        href="mailto:tomasz.bosak@ericsson.com?subject=[GOLF PUTTING]">tomasz.bosak@ericsson.com</a> (663 426 762)
+</p>
+{% endblock %}
